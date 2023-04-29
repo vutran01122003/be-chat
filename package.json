@@ -9,6 +9,9 @@
     "mongoose": "^7.0.4",
     "socket.io": "^4.6.1"
   },
+  "engines": {
+    "node": ">=14 <15"
+  },
   "devDependencies": {
     "nodemon": "^2.0.22"
   },
