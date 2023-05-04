@@ -42,7 +42,6 @@ app.use(
 );
 
 app.use('/public', express.static(path.join(__dirname, '/public')));
-console.log(path.join(__dirname, 'public', 'uploads'));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
