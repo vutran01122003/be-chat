@@ -50,6 +50,26 @@ app.get('/', (req, res) => {
     res.send('Home page');
 });
 
+app.get('/profile', (req, res) => {
+    try {
+        const token = req.cookies?.accessToken;
+        if (!token) {
+            return res.status(401).send('Lỗi token: Không tìm thấy token');
+        }
+
+        jwt.verify(token, publicKey, {}, (err, data) => {
+            if (err) {
+                return res.status(401).send('Lỗi token: Token không hợp lệ');
+            }
+
+            return res.status(200).send(data);
+        });
+    } catch (error) {
+        console.error(error);
+        return res.sendStatus(500);
+    }
+});
+
 io.on('connection', (socket) => {
     let identity = null;
     let cookieArr = socket.handshake.headers.cookie.split('; ');
@@ -172,26 +192,6 @@ app.post('/message/:userId', async (req, res) => {
     }
 });
 
-app.get('/profile', (req, res) => {
-    try {
-        const token = req.cookies?.accessToken;
-        if (!token) {
-            return res.status(401).send('Lỗi token: Không tìm thấy token');
-        }
-
-        jwt.verify(token, publicKey, {}, (err, data) => {
-            if (err) {
-                return res.status(401).send('Lỗi token: Token không hợp lệ');
-            }
-
-            return res.status(200).send(data);
-        });
-    } catch (error) {
-        console.error(error);
-        return res.sendStatus(500);
-    }
-});
-
 app.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -285,7 +285,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.post('/logout', (req, res) => {
+app.get('/logout', (req, res) => {
     res.clearCookie('accessToken');
     return res.status(200).send('logout success');
 });
