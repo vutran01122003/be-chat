@@ -222,7 +222,8 @@ app.post('/register', async (req, res) => {
                     return res
                         .cookie('accessToken', data, {
                             secure: true,
-                            httpOnly: true
+                            httpOnly: true,
+                            sameSite: 'none'
                         })
                         .status(200)
                         .json({
@@ -265,7 +266,8 @@ app.post('/login', async (req, res) => {
                     return res
                         .cookie('accessToken', data, {
                             secure: true,
-                            httpOnly: true
+                            httpOnly: true,
+                            sameSite: 'none'
                         })
                         .status(200)
                         .json({
@@ -284,7 +286,7 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/logout', (req, res) => {
-    res.cookie('accessToken', '');
+    res.clearCookie('accessToken');
     return res.status(200).send('logout success');
 });
 
