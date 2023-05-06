@@ -286,7 +286,7 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/logout', (req, res) => {
-    res.clearCookie('accessToken');
+    res.cookie('accessToken', '');
     return res.status(200).send('logout success');
 });
 
